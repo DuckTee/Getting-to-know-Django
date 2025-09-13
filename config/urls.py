@@ -19,10 +19,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
-from catalog.views import home
+# from catalog.views import home
 
 urlpatterns = [
-    path('', home),
+    path('', include('catalog.urls')),
     path('admin/', admin.site.urls),
     path('catalog/', include('catalog.urls', namespace='catalog'))
 ]
