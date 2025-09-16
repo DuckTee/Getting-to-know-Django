@@ -3,12 +3,11 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from .models import Product
 
-'''
-Форма продукта
-'''
-
 
 class ProductForm(forms.ModelForm):
+    '''
+    Форма продукта
+    '''
     class Meta:
         model = Product
         fields = '__all__'  # используем все поля из модели

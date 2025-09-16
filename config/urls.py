@@ -24,7 +24,8 @@ from django.conf import settings
 urlpatterns = [
     path('', include('catalog.urls')),
     path('admin/', admin.site.urls),
-    path('catalog/', include('catalog.urls', namespace='catalog'))
+    path('catalog/', include('catalog.urls', namespace='catalog')),
+    path('accounts/', include('accounts.urls', namespace='accounts'))
 ]
 
 if settings.DEBUG:

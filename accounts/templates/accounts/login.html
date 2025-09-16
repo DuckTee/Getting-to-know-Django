@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="card-header">
+            Вход в систему
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Вход</button>
+            </form>
+        </div>
+        <div class="card-footer"></div>
+    </div>
+</div>
+
+{% endblock %}
+
