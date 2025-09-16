@@ -1,0 +1,26 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">{{ post.title }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ post.content }}</p>
+                        <img src="post.preview | media_filter" alt="{{ post.title }}" width="300" class="img-fluid mb-3">
+                        <p>Дата создания: {{ post.created_at }}</p>
+                        <p>Просмотров: {{ post.views_count }}</p>
+                        <div class="mt-4">
+                            <a href="{% url 'blog:blog_update' post.pk %}" class="btn btn-primary">Редактировать</a>
+                            <a href="{% url 'blog:blog_delete' post.pk %}" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
