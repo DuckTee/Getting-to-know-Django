@@ -19,9 +19,9 @@ class RegisterView(generic.CreateView):
     model = CustomUser
     form_class = UserRegisterForm
     template_name = 'accounts/register.html'
-    success_url = reverse_lazy('catalog:home')
+    success_url = reverse_lazy('accounts:login')
 
-    def form_valid(self, form):
+    def user_form_valid(self, form):
         user = form.save()
         user.is_active = False
         token = secrets.token_hex(16)

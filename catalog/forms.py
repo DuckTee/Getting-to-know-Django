@@ -1,7 +1,16 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 from .models import Product
+
+
+class StyleFormMixin:
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
 
 class ProductForm(forms.ModelForm):
@@ -61,3 +70,11 @@ class ProductForm(forms.ModelForm):
             raise ValidationError(_('Цена не может быть отрицательной!'))
 
         return price
+
+
+class ProductModerForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ['is_published']
+
+

@@ -21,9 +21,11 @@
 
                     <!-- Дополнительные действия с товаром -->
                     <div class="d-flex justify-content-between">
+                        {% if perms.catalog.can_unpublish_product or user == dog.owner %}
                         <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-outline-primary">
                             <i class="fas fa-edit"></i> Редактировать
                         </a>
+                        {% endif %}
                         <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-outline-danger">
                             <i class="fas fa-trash"></i> Удалить
                         </a>
