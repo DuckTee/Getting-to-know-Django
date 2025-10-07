@@ -4,6 +4,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.core.cache import cache
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .models import Product
 from .forms import ProductForm, ProductModerForm
@@ -15,7 +18,11 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Product.objects.all()
+        products = cache.get('all_products')
+        if not products:
+            products = Product.objects.all()
+            cache.set('all_products', products, timeout=300)
+        context['products'] = products
         return context
 
 
@@ -35,6 +42,13 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
     context_object_name = 'product'
+
+    def get_object(self, queryset=None):
+        product = cache.get(f'product_{self.kwargs["pk"]}')
+        if not product:
+            product = super().get_object(queryset)
+            cache.set(f'product_{self.kwargs["pk"]}', product, timeout=300)
+        return product
 
 
 class ProductCreateView(CreateView):
