@@ -2,14 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.core.cache import cache
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+
 
 from .models import Product
 from .forms import ProductForm, ProductModerForm
+from .services import ProductService
 
 
 class HomeView(TemplateView):
@@ -49,6 +48,21 @@ class ProductDetailView(DetailView):
             product = super().get_object(queryset)
             cache.set(f'product_{self.kwargs["pk"]}', product, timeout=300)
         return product
+
+
+class CategoryProductsView(ListView):
+    '''Список продуктов по категории'''
+    template_name = 'category_products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_name = self.kwargs.get('category_name')
+        return ProductService.get_products_by_category(category_name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_name'] = self.kwargs.get('category_name')
+        return context
 
 
 class ProductCreateView(CreateView):

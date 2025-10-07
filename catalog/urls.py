@@ -8,8 +8,9 @@ from .views import (
     ProductDetailView,
     ProductCreateView,
     ProductUpdateView,
-    ProductDeleteView
-) # Импорт представлений
+    ProductDeleteView,
+    CategoryProductsView
+)  # Импорт представлений
 
 
 # Устанавливаем пространство имен для URL
@@ -23,5 +24,7 @@ urlpatterns = [
     path('product/create/', ProductCreateView.as_view(), name='product_create'), # Создание
     path('product/<int:pk>/update/', ProductUpdateView.as_view(), name='product_update'), # Редактирование
     path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'), # Удаление
+
+    path('category/<str:category_name>/', CategoryProductsView.as_view(), name='category_products'), # Категории
 
 ]
