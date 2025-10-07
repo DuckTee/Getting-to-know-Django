@@ -1,4 +1,3 @@
-# catalog/services.py
 from django.core.cache import cache
 from django.conf import settings
 from .models import Product, Category
